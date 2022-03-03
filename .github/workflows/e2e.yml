@@ -9,9 +9,6 @@ jobs:
   backend:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: ./backend
 
     steps:
     - uses: actions/checkout@v2
@@ -20,7 +17,7 @@ jobs:
       id: node-version
       uses: juliangruber/read-file-action@v1
       with:
-        path: .node-version
+        path: './backend.node-version'
         trim: true
 
     - name: setup node
@@ -28,19 +25,19 @@ jobs:
       with:
         node-version: '${{ steps.node-version.outputs.content }}'
         cache: 'yarn'
+        cache-dependency-path: './backend/yarn.lock'
 
     - name: run yarn install
       run: yarn --frozen-lockfile --non-interactive
+      working-directory: './backend'
 
     - name: run backend
       run: yarn up
+      working-directory: './backend'
 
   frontend:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: ./frontend
 
     steps:
     - uses: actions/checkout@v2
@@ -57,9 +54,12 @@ jobs:
       with:
         node-version: '${{ steps.node-version.outputs.content }}'
         cache: 'yarn'
+        cache-dependency-path: './frontend/yarn.lock'
 
     - name: run yarn install
       run: yarn --frozen-lockfile --non-interactive
+      working-directory: './frontend'
 
     - name: run frontend
       run: yarn dev
+      working-directory: './frontend'
