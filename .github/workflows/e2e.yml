@@ -24,7 +24,7 @@ jobs:
       id: node-version
       uses: juliangruber/read-file-action@v1
       with:
-        path: '.node-version'
+        path: './backend/.node-version'
         trim: true
 
     - name: setup node
@@ -53,7 +53,7 @@ jobs:
       id: node-version
       uses: juliangruber/read-file-action@v1
       with:
-        path: '.node-version'
+        path: './frontend/node-version'
         trim: true
 
     - name: setup node
