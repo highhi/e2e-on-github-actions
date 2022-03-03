@@ -1,0 +1,69 @@
+name: E2E
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: './'
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: './backend'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: get node-version
+      id: node-version
+      uses: juliangruber/read-file-action@v1
+      with:
+        path: '.node-version'
+        trim: true
+
+    - name: setup node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '${{ steps.node-version.outputs.content }}'
+        cache: 'yarn'
+
+    - name: run yarn install
+      run: yarn --frozen-lockfile --non-interactive
+
+    - name: run backend
+      run: yarn up
+
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: './frontend'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: get node-version
+      id: node-version
+      uses: juliangruber/read-file-action@v1
+      with:
+        path: '.node-version'
+        trim: true
+
+    - name: setup node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '${{ steps.node-version.outputs.content }}'
+        cache: 'yarn'
+
+    - name: run yarn install
+      run: yarn --frozen-lockfile --non-interactive
+
+    - name: run frontend
+      run: yarn dev
