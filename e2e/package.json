@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "test": "yarn playwright test"
+  },
   "devDependencies": {
     "@playwright/test": "^1.19.2",
     "typescript": "^4.6.2"

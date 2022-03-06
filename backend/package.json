@@ -8,5 +8,6 @@
   },
   "dependencies": {
     "express": "^4.17.3"
-  }
+  },
+  "devDependencies": {}
 }
