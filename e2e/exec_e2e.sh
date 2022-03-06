@@ -10,5 +10,5 @@ cd ../backend
 yarn dev > /dev/null 2>&1 &
 cd -
 
-yarn test
+node exec_e2e.js
 
