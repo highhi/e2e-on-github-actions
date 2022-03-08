@@ -14,7 +14,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: get node-version
-      id: node-version
+      id: node-version-backend
       uses: juliangruber/read-file-action@v1
       with:
         path: './backend/.node-version'
@@ -23,7 +23,7 @@ jobs:
     - name: setup node
       uses: actions/setup-node@v2
       with:
-        node-version: '${{ steps.node-version.outputs.content }}'
+        node-version: '${{ steps.node-version-backend.outputs.content }}'
         cache: 'yarn'
         cache-dependency-path: './backend/yarn.lock'
 
@@ -37,7 +37,7 @@ jobs:
       working-directory: './backend'
 
     - name: get node-version
-      id: node-version
+      id: node-version-frontend
       uses: juliangruber/read-file-action@v1
       with:
         path: ./frontend/.node-version
@@ -46,7 +46,7 @@ jobs:
     - name: setup node
       uses: actions/setup-node@v2
       with:
-        node-version: '${{ steps.node-version.outputs.content }}'
+        node-version: '${{ steps.node-version-frontend.outputs.content }}'
         cache: 'yarn'
         cache-dependency-path: './frontend/yarn.lock'
 
