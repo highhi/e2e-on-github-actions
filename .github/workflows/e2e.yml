@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  backend:
+  e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -34,15 +34,7 @@ jobs:
     - name: run backend
       run: |
         yarn dev > /dev/null 2>&1 &
-        curl http://localhost:4000
       working-directory: './backend'
-
-  frontend:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-
-    steps:
-    - uses: actions/checkout@v2
 
     - name: get node-version
       id: node-version
@@ -65,5 +57,13 @@ jobs:
     - name: run frontend
       run:  |
         yarn dev > /dev/null 2>&1 &
-        curl http://localhost:4001
       working-directory: './frontend'
+
+    - name: yarn install e2e
+      run: yarn --frozen-lockfile --non-interactive
+      working-directory: './e2e'
+
+    - name: run e2e
+      run: node exec_e2e.js
+      working-directory: './e2e'
+
